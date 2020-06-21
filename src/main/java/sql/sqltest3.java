@@ -1,5 +1,6 @@
 package sql;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -41,12 +42,14 @@ public class sqltest3 {
 // Define "r_proctime" as the time attribute and "r_currency" as the primary key.
         TemporalTableFunction rates = ratesHistory.createTemporalTableFunction("r_proctime", "r_currency"); // <==== (1)
         tEnv.registerFunction("Rates", rates);
-       Table counts= tEnv.from("RatesHistory").groupBy( $("r_currency")).select($("r_currency").count());
-        ratesHistory.printSchema();
+      // Table counts= tEnv.from("RatesHistory").groupBy( $("r_currency")).select($("r_currency").count().as("cnt"));
+         Table Orders = tEnv.fromDataStream(ratesHistoryStream);
+        Orders.distinct();
 
-        DataStream<Tuple2<Boolean, Row>> result = tEnv.toRetractStream(counts, Row.class);
-         result.print();
-        env.execute("qxy");
+//        DataStream<Tuple2<Boolean, Row>> result = tEnv.toRetractStream(counts, Row.class);
+//         result.print();
+//        env.execute("qxy");
+        tEnv.execute("qxy");
 
     }
 }
