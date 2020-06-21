@@ -23,8 +23,8 @@ public class sqltestl4 {
                 new Order(1L, "b", 4),
                 new Order(3L, "c", 2)));
         DataSource<Order2> ds2 = env.fromCollection(Arrays.asList(
-                new Order2(1L, "d", 3),
-                new Order2(1L, "e", 4),
+                new Order2(2L, "d", 3),
+                new Order2(4L, "e", 4),
                 new Order2(3L, "f", 2)));
         Table left = tEnv.fromDataSet(ds1, "a, b, c");
         Table right = tEnv.fromDataSet(ds2, "d, e, f");
