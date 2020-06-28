@@ -14,7 +14,7 @@ import org.apache.flink.types.Row;
 
 import java.util.Arrays;
 
-public class sqltest {
+public class sqlOrdertest {
     public static void main(String[] args) throws Exception {
         ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
         BatchTableEnvironment tEnv = BatchTableEnvironment.create(env);
