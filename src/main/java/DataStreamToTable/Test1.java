@@ -17,6 +17,7 @@ import static org.apache.flink.table.api.Expressions.$;
  @Description:
  @Date:Created in 20:52 2020/6/28
  @Modified By:
+ 源文参见：https://ci.apache.org/projects/flink/flink-docs-master/dev/table/tableApi.html
  **********************************/
 public class Test1 {
     public static void main(String[] args) throws Exception {
