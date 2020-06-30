@@ -44,12 +44,12 @@ public class sqltest3 {
         tEnv.registerFunction("Rates", rates);
       // Table counts= tEnv.from("RatesHistory").groupBy( $("r_currency")).select($("r_currency").count().as("cnt"));
          Table Orders = tEnv.fromDataStream(ratesHistoryStream);
-        Orders.distinct();
+        Orders.execute().print();
 
 //        DataStream<Tuple2<Boolean, Row>> result = tEnv.toRetractStream(counts, Row.class);
 //         result.print();
-//        env.execute("qxy");
-        tEnv.execute("qxy");
+  //      env.execute("qxy");
+  //      tEnv.execute("qxy");
 
     }
 }
