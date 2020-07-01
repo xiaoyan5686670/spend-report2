@@ -34,7 +34,7 @@ public class TableAPI2 {
                 .field("b", DataTypes.INT())
                 .field("c", DataTypes.BIGINT())
                 .field("rowtime",DataTypes.BIGINT()); //此处类型不能为：TIMESTAMP
-        tEnv.connect(new FileSystem().path("c:\\tmp\\qxy4.csv"))//CSV中的时间戳1592726259000L不用加L,否则报originated by LongParser: NUMERIC_VALUE_ILLEGAL_CHARACTER.
+        tEnv.connect(new FileSystem().path("d:\\tmp\\qxy4.csv"))//CSV中的时间戳1592726259000L不用加L,否则报originated by LongParser: NUMERIC_VALUE_ILLEGAL_CHARACTER.
                 .withFormat(new OldCsv().fieldDelimiter("|").deriveSchema())
                 .withSchema(schema)
                 .createTemporaryTable("Orders");

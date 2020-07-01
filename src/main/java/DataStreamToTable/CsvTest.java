@@ -25,28 +25,28 @@ public class CsvTest {
 
         final Schema schema = new Schema().field("count", DataTypes.INT()).field("word",DataTypes.STRING());
 
-        fsTableEnv.connect(new FileSystem().path("c:\\tmp\\qxy1.csv"))
+        fsTableEnv.connect(new FileSystem().path("d:\\tmp\\qxy1.csv"))
                 .withFormat(new OldCsv().deriveSchema())
                 .withSchema(schema)
                 .createTemporaryTable("MySource1");
 
-        fsTableEnv.connect(new FileSystem().path("c:\\tmp\\qxy2.csv"))
+        fsTableEnv.connect(new FileSystem().path("d:\\tmp\\qxy2.csv"))
                 .withFormat(new OldCsv().deriveSchema())
                 .withSchema(schema)
                 .createTemporaryTable("MySource2");
 
-        fsTableEnv.connect(new FileSystem().path("c:\\tmp\\sink1"))
+        fsTableEnv.connect(new FileSystem().path("d:\\tmp\\sink1"))
                 .withFormat(new OldCsv().deriveSchema())
                 .withSchema(schema)
                 .createTemporaryTable("MySink1");
 
-        fsTableEnv.connect(new FileSystem().path("c:\\tmp\\sink2"))
+        fsTableEnv.connect(new FileSystem().path("d:\\tmp\\sink2"))
                 .withFormat(new OldCsv().deriveSchema())
                 .withSchema(schema)
                 .createTemporaryTable("MySink2");
 
         Table table1= fsTableEnv.from("MySource1").where($("word").like("F%"));
-        table1.insertInto("MySink1");
+        table1.executeInsert("MySink1");
 
         Table table2 = table1.unionAll(fsTableEnv.from("MySource2"));
         table2.insertInto("MySink2");
