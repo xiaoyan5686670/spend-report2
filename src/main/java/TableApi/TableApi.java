@@ -41,12 +41,13 @@ public class TableApi {
      //   tEnv.createTemporaryView("Orders",Orders,"a,b,c");
         DataStream<Order> Orders3 = env.fromCollection(Orders2);
 
-        Table orders = tEnv.fromDataStream(Orders3,$("a"),$("b"));
+        Table orders = tEnv.fromDataStream(Orders3);
 
-        Table counts = orders.groupBy($("a")).select($("a"), $("b").count().as("cnt"));
+        Table counts = orders.groupBy($("f0")).select( $("f0").count().as("cnt"));
         //conversion to DataSet
         DataStream<Tuple2<Boolean, Row>> result = tEnv.toRetractStream(counts, Row.class);
         result.print();
+        env.execute("qxy");
 
     }
 
