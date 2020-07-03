@@ -32,26 +32,27 @@ import static org.apache.flink.table.api.Expressions.lit;
  **********************************/
 public class TableConfigTest {
     public static void main(String[] args) throws Exception {
+        StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(new Configuration());
         EnvironmentSettings fsSettings = EnvironmentSettings.newInstance().useBlinkPlanner().inBatchMode().build();
         TableEnvironment tEnv = TableEnvironment.create(fsSettings);
 
         // obtain query configuration from TableEnvironment
-       TableConfig tConfig = tEnv.getConfig();
-
-        tEnv.getConfig().addConfiguration(
-                new Configuration()
-                        .set(CoreOptions.DEFAULT_PARALLELISM, 10)
-                        .set(PipelineOptions.AUTO_WATERMARK_INTERVAL, Duration.ofMillis(800))
-                        .set(ExecutionCheckpointingOptions.CHECKPOINTING_INTERVAL, Duration.ofSeconds(30))
-                        .set(CHECKPOINTS_DIRECTORY,"file:///d://tmp//")
-        );
+//       TableConfig tConfig = tEnv.getConfig();
+//
+//        tEnv.getConfig().addConfiguration(
+//                new Configuration()
+//                        .set(CoreOptions.DEFAULT_PARALLELISM, 10)
+//                        .set(PipelineOptions.AUTO_WATERMARK_INTERVAL, Duration.ofMillis(800))
+//                        .set(ExecutionCheckpointingOptions.CHECKPOINTING_INTERVAL, Duration.ofSeconds(30))
+//                        .set(CHECKPOINTS_DIRECTORY,"file:///d://tmp//")
+//        );
        System.out.println( tEnv.getConfig().getConfiguration().toString());
         final Schema schema = new Schema()
                 .field("a", DataTypes.STRING())
                 .field("b", DataTypes.INT())
                 .field("c", DataTypes.BIGINT())
                 .field("rowtime",DataTypes.BIGINT()); //此处类型不能为：TIMESTAMP
-       tEnv.connect(new FileSystem().path("d:\\tmp\\qxy4.csv"))//CSV中的时间戳1592726259000L不用加L,否则报originated by LongParser: NUMERIC_VALUE_ILLEGAL_CHARACTER.
+       tEnv.connect(new FileSystem().path("c:\\tmp\\qxy4.csv"))//CSV中的时间戳1592726259000L不用加L,否则报originated by LongParser: NUMERIC_VALUE_ILLEGAL_CHARACTER.
                 .withFormat(new OldCsv().fieldDelimiter("|").deriveSchema())
                 .withSchema(schema)
                 .createTemporaryTable("Orders");
@@ -71,7 +72,7 @@ public class TableConfigTest {
         // register TableSink
 
      //   result.execute().print();
-        tEnv.execute("");
+    //    tEnv.execute("");
 
     }
 }

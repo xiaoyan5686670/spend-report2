@@ -17,7 +17,6 @@ import org.apache.flink.table.descriptors.OldCsv;
 import org.apache.flink.table.descriptors.Schema;
 import org.apache.flink.table.sources.CsvAppendTableSourceFactory;
 import org.apache.flink.table.sources.CsvTableSource;
-import sun.plugin.cache.OldCacheEntry;
 
 import static org.apache.flink.table.api.Expressions.$;
 
