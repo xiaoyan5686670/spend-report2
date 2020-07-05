@@ -89,13 +89,13 @@ public class TableConfigTest2 {
          * 直接使用execut(),输出数据表,可以直接输出 ，而不用等到env.execute("q");
          */
         System.out.println("-------------------3-----------------------");
-
-        orders.window(over(lit(5).seconds()).on($("rowtime")).as("userActionWindow"))
+        //滚动窗口1分钟为一个单位
+        orders.window(over(lit(1).minutes()).on($("rowtime")).as("userActionWindow"))
               .groupBy($("user"),$("userActionWindow"))
-                .select($("user"),$("amount").avg().as("avgBillingAmount")).execute().print();
-
-        orders.window(Tumble.over(lit(1).minutes()).on($("rowtime")).as("userActionWindow")).groupBy($("userActionWindow"),$("user"))
-                .select($("user"),$("userActionWindow").end().as("hour"),$("amount").avg().as("avgBillingAmount")).execute().print();
+                .select($("user"),$("amount").sum().as("avgBillingAmount")).execute().print();
+        //滚动窗口3分钟为一个单位
+        orders.window(Tumble.over(lit(3).minutes()).on($("rowtime")).as("userActionWindow")).groupBy($("userActionWindow"),$("user"))
+                .select($("user"),$("userActionWindow").end().as("hour"),$("amount").sum().as("avgBillingAmount")).execute().print();
 
 
         env.execute("q");
