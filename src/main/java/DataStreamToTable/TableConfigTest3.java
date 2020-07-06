@@ -3,6 +3,7 @@ package DataStreamToTable;
 
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 
@@ -32,7 +33,7 @@ import static org.apache.flink.table.api.Tumble.over;
  @Date:Created in 15:35 2020/7/1
  @Modified By:
  **********************************/
-public class TableConfigTest2 {
+public class TableConfigTest3 {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         EnvironmentSettings bsSettings = EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build();
