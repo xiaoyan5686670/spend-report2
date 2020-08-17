@@ -35,7 +35,7 @@ public class TableConfigTest {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(new Configuration());
         EnvironmentSettings fsSettings = EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build();
-        env.setParallelism(1);
+        env.setParallelism(5);
         StreamTableEnvironment tEnv = StreamTableEnvironment.create(env,fsSettings);
 
         // obtain query configuration from TableEnvironment
@@ -107,9 +107,40 @@ public class TableConfigTest {
                 " 'connector.write.flush.max-rows' = '1' " +
                 ")"
                ).print();
+        tEnv.executeSql("CREATE TABLE Orders5 ( b BIGINT ) " +
+                "   " +
+                " WITH ( " +
+                "     'connector.type' = 'jdbc'," +
+
+                "  'connector.url' = 'jdbc:mysql://localhost:3306/test', " +
+                " 'connector.table' = 'pvuv_sink3', " +
+                " 'connector.username' = 'root', " +
+                " 'connector.password' = 'xy5686670', " +
+                " 'connector.write.flush.max-rows' = '1' " +
+                ")"
+        ).print();
+
+        tEnv.executeSql("CREATE TABLE Orders6 ( b varchar ) " +
+                "   " +
+                " WITH ( " +
+                "     'connector.type' = 'jdbc'," +
+
+                "  'connector.url' = 'jdbc:mysql://localhost:3306/test', " +
+                " 'connector.table' = 'pvuv_sink4', " +
+                " 'connector.username' = 'root', " +
+                " 'connector.password' = 'xy5686670', " +
+                " 'connector.write.flush.max-rows' = '1' " +
+                ")"
+        ).print();
         tEnv.executeSql("show tables").print();
-      //  TableResult tableResult1 = tEnv.executeSql("insert into Orders4 SELECT a,count(a) FROM Orders group by a  ");
-        TableResult tableResult2 = tEnv.executeSql("insert into Orders4 SELECT a,count(a) FROM Orders group by  TUMBLE(user_action_time,INTERVAL '5' minutes),a  ");
+        //TableResult tableResult1 = tEnv.executeSql("insert into Orders4 SELECT a,count(a) FROM Orders group by a  ");
+        //TableResult tableResult2 = tEnv.executeSql("insert into Orders4 SELECT a,count(a) FROM Orders group by  TUMBLE(user_action_time,INTERVAL '5' minutes),a  ");
+        TableResult tableResult3 = tEnv.executeSql("insert into Orders5 select count(a) OVER (\n" +
+                "  PARTITION BY a\n" +
+                "  ORDER BY user_action_time\n" +
+                "  ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)\n" +
+                "  from Orders ");
+        TableResult tableResult4 = tEnv.executeSql("insert into Orders6 SELECT DISTINCT a FROM Orders   ");
       //  TableResult tableResult1 = tEnv.executeSql("insert into Orders3 SELECT a,count(1),'20200704' FROM Orders group by a ");
        // TableResult tableResult2 = tEnv.executeSql("insert into Orders4 SELECT a,count(1),'20200704' FROM Orders group by a ");
 //        try (CloseableIterator<Row> it = tableResult1.collect()) {
