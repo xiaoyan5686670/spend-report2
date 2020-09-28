@@ -1,0 +1,20 @@
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+
+
+/*********************************
+ @Author:xiaoyan.qin
+ @Description:
+ @Date:Created in 18:03 2020/7/28
+ @Modified By:
+ **********************************/
+public class TestRunner {
+    public static void main(String[] args){
+        Result result = JUnitCore.runClasses(TestJunit.class);
+        for (Failure failure :result.getFailures()){
+            System.out.println(failure.toString());
+        }
+        System.out.println(result.wasSuccessful());
+    }
+}
